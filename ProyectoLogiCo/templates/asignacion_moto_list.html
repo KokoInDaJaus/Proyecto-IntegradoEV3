@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Motoristas</title>
+    <title>Listado de Asignaciones de Motos</title>
     <style>
         /* === ESTILOS PRINCIPALES === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,6 +73,7 @@
             padding: 8px 20px;
             margin: 0 5px;
             font-size: 0.9em;
+            border-radius: 20px;
         }
 
         td a:first-child { background: #667eea; color: white; }
@@ -80,48 +81,55 @@
 
         td a:last-child { background: #ff6b6b; color: white; }
         td a:last-child:hover { background: #ff5252; }
+
+        .estado-activo {
+            color: green;
+            font-weight: bold;
+        }
+        .estado-inactivo {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h1>Listado de Motoristas</h1>
+    <h1>Asignaciones de Motos</h1>
     <div style="text-align:center;">
-        <a href="{% url 'motorista_create' %}">Agregar Nuevo Motorista</a>
+        <a href="{% url 'asignacion_moto_create' %}">Nueva Asignación</a>
         <a href="{% url 'index' %}">Volver al Inicio</a>
     </div>
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>RUT</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Licencia</th>
-                <th>Estado</th>
-                <th>Farmacia</th>
+                <th>Motorista</th>
                 <th>Moto</th>
-                <th>Fecha Ingreso</th>
+                <th>Fecha Asignación</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for motorista in motoristas %}
+            {% for asignacion in asignaciones %}
             <tr>
-                <td>{{ motorista.nombre }}</td>
-                <td>{{ motorista.rut }}</td>
-                <td>{{ motorista.telefono }}</td>
-                <td>{{ motorista.correo }}</td>
-                <td>{{ motorista.licencia }}</td>
-                <td>{{ motorista.estado }}</td>
-                <td>{{ motorista.farmacia.nombre|default:"-" }}</td>
-                <td>{{ motorista.moto.patente|default:"-" }}</td>
-                <td>{{ motorista.fecha_ingreso }}</td>
+                <td>{{ asignacion.motorista.nombre }}</td>
+                <td>{{ asignacion.moto.patente }}</td>
+                <td>{{ asignacion.fecha_asignacion|date:"d/m/Y" }}</td>
+                <td>{{ asignacion.fecha_fin|date:"d/m/Y"|default:"-" }}</td>
                 <td>
-                    <a href="{% url 'motorista_update' motorista.id %}">Editar</a>
-                    <a href="{% url 'motorista_delete' motorista.id %}">Eliminar</a>
+                    {% if asignacion.activa %}
+                        <span class="estado-activo">Activa</span>
+                    {% else %}
+                        <span class="estado-inactivo">Finalizada</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'asignacion_moto_update' asignacion.id %}">Editar</a>
+                    <a href="{% url 'asignacion_moto_delete' asignacion.id %}">Eliminar</a>
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="10" style="text-align:center;">No hay motoristas registrados.</td></tr>
+            <tr><td colspan="6" style="text-align:center;">No hay asignaciones registradas.</td></tr>
             {% endfor %}
         </tbody>
     </table>

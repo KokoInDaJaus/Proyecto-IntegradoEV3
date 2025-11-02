@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Motorista</title>
+    <title>Formulario Movimiento</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -114,14 +114,14 @@
     </style>
 </head>
 <body>
-    <h1>{% if form.instance.pk %}Editar Motorista{% else %}Agregar Nuevo Motorista{% endif %}</h1>
+    <h1>{% if form.instance.pk %}Editar Movimiento{% else %}Registrar Movimiento{% endif %}</h1>
     <div class="form-container">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Guardar">
         </form>
-        <a href="{% url 'motorista_list' %}" class="link">Volver al Listado</a>
+        <a href="{% url 'movimiento_list' %}" class="link">Volver al Listado</a>
     </div>
 </body>
 </html>

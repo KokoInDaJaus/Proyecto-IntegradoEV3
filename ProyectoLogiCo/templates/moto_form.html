@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Moto</title>
+    <meta charset="UTF-8">
+    <title>Formulario Moto</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,9 +21,9 @@
             max-width: 400px;
             margin: 40px auto;
             background: white;
-            border-radius: 16px;
-             padding: 35px 40px 30px 30px;
-            box-shadow: 0 8px 30px rgba(76, 68, 117, 0.18);
+            border-radius: 15px;
+              padding: 35px 40px 30px 30px;
+            box-shadow: 0 8px 30px rgba(76, 68, 117, 0.25);
         }
         .form-container form {
             display: flex;
@@ -38,8 +39,8 @@
         .form-container select,
         .form-container textarea {
             width: 100%;
-            padding: 11px 14px;
-            border: 1px solid #d1d5db;
+            padding: 11px;
+            border: 1px solid #bdbdbd;
             border-radius: 8px;
             font-size: 1em;
             background: #f8f8ff;
@@ -61,10 +62,9 @@
             border: none;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 1.07em;
+            font-size: 1em;
             cursor: pointer;
             margin-top: 5px;
-            margin-bottom: 15px;
             transition: background 0.2s;
             box-shadow: 0 4px 15px rgba(102,126,234,0.13);
         }
@@ -79,25 +79,17 @@
             padding: 10px 0;
             text-align: center;
             text-decoration: none;
-            border-radius: 25px;
+            border-radius: 20px;
             font-weight: 600;
             margin-top: 5px;
             box-shadow: 0 2px 12px rgba(102,126,234,0.12);
             transition: all 0.3s ease;
         }
         .form-container .link:hover {
-            background: #764ba2;
+            background: #bdacce;
             color: white;
         }
-        /* Mejor espaciado entre label-input */
-        .form-group {
-            margin-bottom: 8px;
-        }
-        /* Oculta el borde que a veces agrega el navegador a los inputs en focus */
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-        }
-         .main-btn {
+        .main-btn {
     background: linear-gradient(135deg, #ffffff 0%, #764ba2 100%);
     color: rgb(255, 255, 255);
     padding: 12px 32px;
@@ -118,31 +110,18 @@
     transform: translateY(-2px) scale(1.04);
     box-shadow: 0 8px 24px rgba(76, 68, 117, 0.22);
 }
+
     </style>
 </head>
 <body>
-    <h1>Formulario Moto</h1>
+    <h1>{% if form.instance.pk %}Editar Moto{% else %}Agregar Nueva Moto{% endif %}</h1>
     <div class="form-container">
-        <form method="post">
+        <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Guardar</button>
+            <input type="submit" value="Guardar">
         </form>
-        <a class="link" href="{% url 'moto_list' %}">Volver</a>
+        <a href="{% url 'moto_list' %}" class="link">Volver al Listado</a>
     </div>
-    <br>
-<div >
-            <div class="main-btn">
-                <a href="{% url 'motorista_list' %}" class="btn">Motoristas</a><br>
-                
-                
-            </div>
-            <div class="main-btn">
-                <a href="{% url 'farmacia_list' %}" class="btn">Farmacias</a>
-                
-            </div>
-            <div class="main-btn">
-                <a href="{% url 'moto_list' %}" class="btn">Motos</a>
-            </div>
 </body>
 </html>

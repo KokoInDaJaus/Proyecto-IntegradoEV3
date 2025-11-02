@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Motorista</title>
+    <title>Asignar Farmacia</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -114,14 +114,30 @@
     </style>
 </head>
 <body>
-    <h1>{% if form.instance.pk %}Editar Motorista{% else %}Agregar Nuevo Motorista{% endif %}</h1>
+    <h1>Asignar Farmacia</h1>
+
     <div class="form-container">
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Guardar">
+            
+            <label for="id_motorista">Motorista:</label>
+            {{ form.motorista }}
+
+            <label for="id_farmacia">Farmacia:</label>
+            {{ form.farmacia }}
+
+            <label for="id_fecha_fin">Fecha de término:</label>
+            {{ form.fecha_fin }}
+
+            <div class="checkbox">
+                {{ form.activa }}
+                <label for="id_activa">Asignación activa</label>
+            </div>
+
+            <button type="submit">Guardar</button>
         </form>
-        <a href="{% url 'motorista_list' %}" class="link">Volver al Listado</a>
+
+        <a href="{% url 'asignacion_farmacia_list' %}" class="link">Volver al Listado</a>
     </div>
 </body>
 </html>

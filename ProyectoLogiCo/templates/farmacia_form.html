@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Farmacia</title>
+    <meta charset="UTF-8">
+    <title>Formulario Farmacia</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -113,28 +114,44 @@
     </style>
 </head>
 <body>
-    <h1>Formulario Farmacia</h1>
+    <h1>{% if form.instance.pk %}Editar Farmacia{% else %}Agregar Nueva Farmacia{% endif %}</h1>
     <div class="form-container">
-        <form method="post">
+        <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Guardar</button>
+            <input type="submit" value="Guardar">
         </form>
-        <a class="link" href="{% url 'farmacia_list' %}">Volver</a>
+        <a href="{% url 'farmacia_list' %}" class="link">Volver al Listado</a>
     </div>
-    <br>
- <div >
-            <div class="main-btn">
-                <a href="{% url 'motorista_list' %}" class="btn">Motoristas</a><br>
-                
-                
-            </div>
-            <div class="main-btn">
-                <a href="{% url 'farmacia_list' %}" class="btn">Farmacias</a>
-                
-            </div>
-            <div class="main-btn">
-                <a href="{% url 'moto_list' %}" class="btn">Motos</a>
-            </div>
+
+    <!-- Script AJAX Región > Provincia > Comuna -->
+    <script>
+        document.getElementById('region-select').addEventListener('change', function() {
+            const region = this.value;
+            fetch(`/ajax/cargar-provincias/?region=${region}`)
+                .then(response => response.json())
+                .then(data => {
+                    const provinciaSelect = document.getElementById('provincia-select');
+                    provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
+                    data.provincias.forEach(p => {
+                        provinciaSelect.innerHTML += `<option value="${p}">${p}</option>`;
+                    });
+                });
+        });
+
+        document.getElementById('provincia-select').addEventListener('change', function() {
+            const provincia = this.value;
+            fetch(`/ajax/cargar-comunas/?provincia=${provincia}`)
+                .then(response => response.json())
+                .then(data => {
+                    const comunaSelect = document.getElementById('comuna-select');
+                    comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+                    data.comunas.forEach(c => {
+                        comunaSelect.innerHTML += `<option value="${c}">${c}</option>`;
+                    });
+                });
+        });
+    </script>
 </body>
 </html>
+
