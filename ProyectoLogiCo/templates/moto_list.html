@@ -95,7 +95,6 @@
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Año</th>
-                <th>Tipo</th>
                 <th>Disponible</th>
                 <th>Acciones</th>
             </tr>
@@ -107,7 +106,6 @@
                 <td>{{ moto.marca }}</td>
                 <td>{{ moto.modelo }}</td>
                 <td>{{ moto.anio }}</td>
-                <td>{{ moto.tipo }}</td>
                 <td>{% if moto.disponible %}Sí{% else %}No{% endif %}</td>
                 <td>
                     <a href="{% url 'moto_update' moto.id %}">Editar</a>

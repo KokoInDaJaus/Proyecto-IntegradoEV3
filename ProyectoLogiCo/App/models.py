@@ -43,7 +43,6 @@ class Moto(models.Model):
     marca = models.CharField(max_length=50)
     modelo = models.CharField(max_length=50)
     anio = models.PositiveIntegerField(db_column="anio", verbose_name="año")
-    tipo = models.CharField(max_length=20)
     disponible = models.BooleanField(default=True)
 
     def __str__(self):

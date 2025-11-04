@@ -26,13 +26,12 @@ class FarmaciaForm(forms.ModelForm):
 class MotoForm(forms.ModelForm):
     class Meta:
         model = Moto
-        fields = ['patente', 'marca', 'modelo', 'anio', 'tipo', 'disponible']
+        fields = ['patente', 'marca', 'modelo', 'anio', 'disponible']
         widgets = {
             'patente': forms.TextInput(attrs={'class': 'form-control'}),
             'marca': forms.TextInput(attrs={'class': 'form-control'}),
             'modelo': forms.TextInput(attrs={'class': 'form-control'}),
             'anio': forms.NumberInput(attrs={'class': 'form-control', 'min': 2000}),
-            'tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'disponible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
