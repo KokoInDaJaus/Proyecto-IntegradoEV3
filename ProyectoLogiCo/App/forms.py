@@ -42,7 +42,7 @@ class MotoForm(forms.ModelForm):
 class MotoristaForm(forms.ModelForm):
     class Meta:
         model = Motorista
-        fields = ['nombre', 'rut', 'telefono', 'correo', 'licencia', 'estado', 'fecha_ingreso', 'farmacia', 'moto']
+        fields = ['nombre', 'rut', 'telefono', 'correo', 'licencia', 'estado', 'fecha_ingreso']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
@@ -50,9 +50,7 @@ class MotoristaForm(forms.ModelForm):
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'licencia': forms.Select(attrs={'class': 'form-select'}),
             'estado': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'farmacia': forms.Select(attrs={'class': 'form-select'}),
-            'moto': forms.Select(attrs={'class': 'form-select'}),
+            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
         }
 
 
@@ -91,8 +89,7 @@ class MovimientoForm(forms.ModelForm):
     class Meta:
         model = Movimiento
         fields = [
-            'codigo',
-            'tipo',                # <-- Campo real según tu models.py
+            'codigo',          
             'descripcion',
             'estado',
             'farmacia_origen',

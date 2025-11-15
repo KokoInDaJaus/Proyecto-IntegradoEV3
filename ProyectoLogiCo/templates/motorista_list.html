@@ -97,8 +97,6 @@
                 <th>Correo</th>
                 <th>Licencia</th>
                 <th>Estado</th>
-                <th>Farmacia</th>
-                <th>Moto</th>
                 <th>Fecha Ingreso</th>
                 <th>Acciones</th>
             </tr>
@@ -112,8 +110,6 @@
                 <td>{{ motorista.correo }}</td>
                 <td>{{ motorista.licencia }}</td>
                 <td>{{ motorista.estado }}</td>
-                <td>{{ motorista.farmacia.nombre|default:"-" }}</td>
-                <td>{{ motorista.moto.patente|default:"-" }}</td>
                 <td>{{ motorista.fecha_ingreso }}</td>
                 <td>
                     <a href="{% url 'motorista_update' motorista.id %}">Editar</a>
