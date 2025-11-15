@@ -89,11 +89,12 @@ class MovimientoForm(forms.ModelForm):
     class Meta:
         model = Movimiento
         fields = [
-            'codigo',          
+            'codigo',  
+            'tipo',        
             'descripcion',
             'estado',
             'farmacia_origen',
-            'farmacia_destino',
+            'destino',
             'motorista',
             'moto'
         ]
@@ -103,7 +104,7 @@ class MovimientoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'estado': forms.Select(attrs={'class': 'form-select'}),
             'farmacia_origen': forms.Select(attrs={'class': 'form-select'}),
-            'farmacia_destino': forms.Select(attrs={'class': 'form-select'}),
+            'destino': forms.TextInput(attrs={'placeholder': 'Ej: Calle 1234, Casa roja'}),
             'motorista': forms.Select(attrs={'class': 'form-select'}),
             'moto': forms.Select(attrs={'class': 'form-select'}),
         }

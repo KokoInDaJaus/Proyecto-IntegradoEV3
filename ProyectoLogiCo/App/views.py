@@ -447,29 +447,45 @@ def descargar_reporte_pdf(request):
 
     # Encabezados de tabla
     p.setFont("Helvetica-Bold", 10)
-    p.drawString(50, y, "Código")
-    p.drawString(120, y, "Tipo")
-    p.drawString(180, y, "Estado")
-    p.drawString(250, y, "Fecha")
-    p.drawString(350, y, "Motorista")
-    p.drawString(450, y, "Origen")
-    y -= 20
+    p.drawString(40, y, "Código")
+    p.drawString(100, y, "Tipo")
+    p.drawString(160, y, "Estado")
+    p.drawString(230, y, "Fecha")
+    p.drawString(300, y, "Motorista")
+    p.drawString(380, y, "Origen")
+    p.drawString(470, y, "Destino")
+    y -= 18
 
     p.setFont("Helvetica", 9)
 
     for m in movimientos:
-        if y < 50:  # Nueva página si se llena
+        if y < 60:  # Nueva página si se llena
             p.showPage()
             y = height - 50
 
-        p.drawString(50, y, str(m.codigo))
-        p.drawString(120, y, str(m.tipo))
-        p.drawString(180, y, str(m.estado))
-        p.drawString(250, y, m.fecha_registro.strftime("%Y-%m-%d"))
-        p.drawString(350, y, m.motorista.nombre if m.motorista else "")
-        p.drawString(450, y, m.farmacia_origen.nombre if m.farmacia_origen else "")
-        y -= 15
+            # Encabezados en nueva página
+            p.setFont("Helvetica-Bold", 10)
+            p.drawString(40, y, "Código")
+            p.drawString(100, y, "Tipo")
+            p.drawString(160, y, "Estado")
+            p.drawString(230, y, "Fecha")
+            p.drawString(300, y, "Motorista")
+            p.drawString(380, y, "Origen")
+            p.drawString(470, y, "Destino")
+            y -= 18
+            p.setFont("Helvetica", 9)
 
+        # Datos del movimiento
+        p.drawString(40, y, str(m.codigo))
+        p.drawString(100, y, str(m.tipo))
+        p.drawString(160, y, str(m.estado))
+        p.drawString(230, y, m.fecha_registro.strftime("%Y-%m-%d"))
+        p.drawString(300, y, m.motorista.nombre if m.motorista else "")
+        p.drawString(380, y, m.farmacia_origen.nombre if m.farmacia_origen else "")
+        p.drawString(470, y, m.destino if m.destino else "")
+
+        y -= 15
+        
     p.showPage()
     p.save()
     return response

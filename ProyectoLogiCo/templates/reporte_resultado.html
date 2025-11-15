@@ -132,7 +132,7 @@
             <td>{% if m.motorista %}{{ m.motorista.nombre }}{% else %}-{% endif %}</td>
             <td>{% if m.moto %}{{ m.moto.patente }}{% else %}-{% endif %}</td>
             <td>{% if m.farmacia_origen %}{{ m.farmacia_origen.nombre }}{% else %}-{% endif %}</td>
-            <td>{% if m.farmacia_destino %}{{ m.farmacia_destino.nombre }}{% else %}-{% endif %}</td>
+            <td>{% if m.destino %}{{ m.destino }}{% else %}-{% endif %}</td>
 
             <td>{{ m.descripcion }}</td>
         </tr>

@@ -131,9 +131,8 @@ class Movimiento(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     estado = models.CharField(max_length=20, choices=ESTADO_MOVIMIENTO, default='EN_PROCESO')
-
     farmacia_origen = models.ForeignKey(Farmacia, on_delete=models.SET_NULL, null=True, related_name='movimientos_origen')
-    farmacia_destino = models.ForeignKey(Farmacia, on_delete=models.SET_NULL, null=True, related_name='movimientos_destino')
+    destino = models.CharField(max_length=200)
     motorista = models.ForeignKey(Motorista, on_delete=models.SET_NULL, null=True)
     moto = models.ForeignKey(Moto, on_delete=models.SET_NULL, null=True)
 

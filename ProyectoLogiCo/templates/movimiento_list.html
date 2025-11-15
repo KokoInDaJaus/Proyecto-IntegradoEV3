@@ -84,19 +84,6 @@
         .estado-en-proceso { color: orange; font-weight: bold; }
         .estado-completado { color: green; font-weight: bold; }
         .estado-anulado { color: red; font-weight: bold; }
-        .btn-reportes {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #FF9800;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .btn-reportes:hover {
-            background-color: #e68900;
-        }
     </style>
 </head>
 <body>
@@ -112,7 +99,7 @@
                 <th>Tipo</th>
                 <th>Estado</th>
                 <th>Farmacia Origen</th>
-                <th>Farmacia Destino</th>
+                <th>Destino</th>
                 <th>Motorista</th>
                 <th>Moto</th>
                 <th>Fecha Registro</th>
@@ -135,7 +122,7 @@
                     {% endif %}
                 </td>
                 <td>{{ movimiento.farmacia_origen.nombre|default:"-" }}</td>
-                <td>{{ movimiento.farmacia_destino.nombre|default:"-" }}</td>
+                <td>{{ movimiento.destino }}</td>
                 <td>{{ movimiento.motorista.nombre|default:"-" }}</td>
                 <td>{{ movimiento.moto.patente|default:"-" }}</td>
                 <td>{{ movimiento.fecha_registro|date:"d/m/Y H:i" }}</td>
@@ -143,8 +130,6 @@
                 <td>
                     <a href="{% url 'movimiento_update' movimiento.id %}">Editar</a>
                     <a href="{% url 'movimiento_delete' movimiento.id %}">Eliminar</a>
-                    <a href="{% url 'reportes_menu' %}" target="_blank" class="btn-reportes">📄 Generar Reportes</a>
-
                 </td>
             </tr>
             {% empty %}
