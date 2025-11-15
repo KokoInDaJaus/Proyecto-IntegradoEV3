@@ -84,6 +84,19 @@
         .estado-en-proceso { color: orange; font-weight: bold; }
         .estado-completado { color: green; font-weight: bold; }
         .estado-anulado { color: red; font-weight: bold; }
+        .btn-reportes {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #FF9800;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .btn-reportes:hover {
+            background-color: #e68900;
+        }
     </style>
 </head>
 <body>
@@ -130,6 +143,8 @@
                 <td>
                     <a href="{% url 'movimiento_update' movimiento.id %}">Editar</a>
                     <a href="{% url 'movimiento_delete' movimiento.id %}">Eliminar</a>
+                    <a href="{% url 'reportes_menu' %}" target="_blank" class="btn-reportes">📄 Generar Reportes</a>
+
                 </td>
             </tr>
             {% empty %}

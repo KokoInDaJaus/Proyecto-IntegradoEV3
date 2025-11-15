@@ -1,19 +1,3 @@
-"""
-URL configuration for ProyectoLogiCo project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from App import views
@@ -61,5 +45,11 @@ urlpatterns = [
     # ========== AJAX: PROVINCIAS Y COMUNAS ==========
     path('ajax/cargar-provincias/', views.cargar_provincias, name='cargar_provincias'),
     path('ajax/cargar-comunas/', views.cargar_comunas, name='cargar_comunas'),
+
+    
+    path('reportes/', views.reportes_menu, name='reportes_menu'),
+    path('reportes/resultados/', views.reporte_movimientos, name='reporte_movimientos'),
+    path('reportes/descargar/pdf/', views.descargar_reporte_pdf, name='descargar_reporte_pdf'),
+
 ]
 

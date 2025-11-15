@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
-from .models import Farmacia, Moto, Motorista, Movimiento, AsignacionMoto, AsignacionFarmacia
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.http import JsonResponse, HttpResponse
+from .models import Farmacia, Moto, Motorista, Movimiento, AsignacionMoto, AsignacionFarmacia, ReporteMovimiento
 from .forms import (
     FarmaciaForm,
     MotoForm,
@@ -16,6 +18,9 @@ from .forms import (
 # =====================================================
 def index(request):
     return render(request, 'index.html')
+
+def reportes_menu(request):
+    return render(request, 'reportes_menu.html')
 
 
 # =====================================================
@@ -345,3 +350,126 @@ def cargar_comunas(request):
 
     comunas = comunas_por_provincia.get(provincia, [])
     return JsonResponse({'comunas': comunas})
+
+
+def reporte_movimientos(request):
+    tipo = request.GET.get("tipo")
+    fecha = request.GET.get("fecha")
+    mes = request.GET.get("mes")
+    anio = request.GET.get("anio")
+
+    movimientos = Movimiento.objects.all()
+
+    if tipo == "DIARIO" and fecha:
+        movimientos = movimientos.filter(
+            fecha_registro__date=fecha
+        )
+
+    elif tipo == "MENSUAL" and mes and anio:
+        movimientos = movimientos.filter(
+            fecha_registro__year=anio,
+            fecha_registro__month=mes
+        )
+
+    elif tipo == "ANUAL" and anio:
+        movimientos = movimientos.filter(
+            fecha_registro__year=anio
+        )
+
+    # Registrar automáticamente en ReporteMovimiento
+    if tipo:
+        ReporteMovimiento.objects.create(
+            tipo=tipo,
+            generado_por="Administrador del Sistema",
+            total_movimientos=movimientos.count()
+        )
+
+    context = {
+        "movimientos": movimientos,
+        "tipo": tipo,
+        "fecha": fecha,
+        "mes": mes,
+        "anio": anio,
+    }
+
+    return render(request, "reporte_resultado.html", context)
+
+def descargar_reporte_pdf(request):
+    tipo = request.GET.get("tipo")
+    fecha = request.GET.get("fecha")
+    mes = request.GET.get("mes")
+    anio = request.GET.get("anio")
+
+    movimientos = Movimiento.objects.all()
+
+    if tipo == "DIARIO" and fecha:
+        movimientos = movimientos.filter(
+            fecha_registro__date=fecha
+        )
+
+    elif tipo == "MENSUAL" and mes and anio:
+        movimientos = movimientos.filter(
+            fecha_registro__year=anio,
+            fecha_registro__month=mes
+        )
+
+    elif tipo == "ANUAL" and anio:
+        movimientos = movimientos.filter(
+            fecha_registro__year=anio
+        )
+
+    # ========================
+    # GENERAR PDF
+    # ========================
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=reporte_movimientos.pdf'
+
+    p = canvas.Canvas(response, pagesize=letter)
+    width, height = letter
+
+    y = height - 50
+
+    # Título
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(50, y, f"Reporte de Movimientos - {tipo}")
+    y -= 30
+
+    # Filtros aplicados
+    p.setFont("Helvetica", 12)
+    if tipo == "DIARIO":
+        p.drawString(50, y, f"Fecha: {fecha}")
+    elif tipo == "MENSUAL":
+        p.drawString(50, y, f"Mes: {mes} / Año: {anio}")
+    elif tipo == "ANUAL":
+        p.drawString(50, y, f"Año: {anio}")
+    y -= 30
+
+    # Encabezados de tabla
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(50, y, "Código")
+    p.drawString(120, y, "Tipo")
+    p.drawString(180, y, "Estado")
+    p.drawString(250, y, "Fecha")
+    p.drawString(350, y, "Motorista")
+    p.drawString(450, y, "Origen")
+    y -= 20
+
+    p.setFont("Helvetica", 9)
+
+    for m in movimientos:
+        if y < 50:  # Nueva página si se llena
+            p.showPage()
+            y = height - 50
+
+        p.drawString(50, y, str(m.codigo))
+        p.drawString(120, y, str(m.tipo))
+        p.drawString(180, y, str(m.estado))
+        p.drawString(250, y, m.fecha_registro.strftime("%Y-%m-%d"))
+        p.drawString(350, y, m.motorista.nombre if m.motorista else "")
+        p.drawString(450, y, m.farmacia_origen.nombre if m.farmacia_origen else "")
+        y -= 15
+
+    p.showPage()
+    p.save()
+    return response
