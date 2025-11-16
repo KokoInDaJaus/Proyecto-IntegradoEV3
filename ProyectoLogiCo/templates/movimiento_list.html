@@ -41,6 +41,27 @@
             color: white;
         }
 
+        /* === BUSCADOR === */
+        .search-box {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input,
+        .search-box select {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            flex: 1;
+            font-size: 1em;
+        }
+
+        .search-box select {
+            flex: 0.4;
+        }
+
         table {
             width: 100%;
             max-width: 1200px;
@@ -86,13 +107,34 @@
         .estado-anulado { color: red; font-weight: bold; }
     </style>
 </head>
+
 <body>
+
     <h1>Listado de Movimientos</h1>
+
     <div style="text-align:center;">
         <a href="{% url 'movimiento_create' %}">Registrar Movimiento</a>
         <a href="{% url 'index' %}">Volver al Inicio</a>
     </div>
-    <table>
+
+    <!-- === BARRA DE BÚSQUEDA === -->
+    <div class="search-box">
+        <input type="text" id="buscar" placeholder="Escribe para filtrar...">
+
+        <select id="columna">
+            <option value="0">Código</option>
+            <option value="1">Tipo</option>
+            <option value="2">Estado</option>
+            <option value="3">Farmacia Origen</option>
+            <option value="4">Destino</option>
+            <option value="5">Motorista</option>
+            <option value="6">Moto</option>
+            <option value="7">Fecha Registro</option>
+            <option value="8">Descripción</option>
+        </select>
+    </div>
+
+    <table id="tabla">
         <thead>
             <tr>
                 <th>Código</th>
@@ -107,6 +149,7 @@
                 <th>Acciones</th>
             </tr>
         </thead>
+
         <tbody>
             {% for movimiento in movimientos %}
             <tr>
@@ -137,5 +180,31 @@
             {% endfor %}
         </tbody>
     </table>
+
+
+    <!-- === SCRIPT DE FILTRADO === -->
+    <script>
+        const inputBusqueda = document.getElementById("buscar");
+        const selectColumna = document.getElementById("columna");
+        const tabla = document.getElementById("tabla").getElementsByTagName("tbody")[0];
+
+        inputBusqueda.addEventListener("keyup", filtrarTabla);
+        selectColumna.addEventListener("change", filtrarTabla);
+
+        function filtrarTabla() {
+            const filtro = inputBusqueda.value.toLowerCase();
+            const col = parseInt(selectColumna.value);
+            const filas = tabla.getElementsByTagName("tr");
+
+            for (let i = 0; i < filas.length; i++) {
+                const celda = filas[i].getElementsByTagName("td")[col];
+                if (celda) {
+                    const texto = celda.textContent.toLowerCase();
+                    filas[i].style.display = texto.includes(filtro) ? "" : "none";
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>

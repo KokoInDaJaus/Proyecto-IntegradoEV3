@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Listado de Farmacias</title>
     <style>
-        /* === ESTILOS PRINCIPALES === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -19,7 +18,7 @@
             text-align: center;
             font-size: 2.5em;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         a {
@@ -31,15 +30,35 @@
             border-radius: 25px;
             font-weight: 600;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
         }
 
         a:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             background: #764ba2;
             color: white;
+        }
+
+        /* === BUSCADOR === */
+        .search-box {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input, .search-box select {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            flex: 1;
+            font-size: 1em;
+        }
+
+        .search-box select {
+            flex: 0.4;
         }
 
         table {
@@ -49,7 +68,7 @@
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border-collapse: collapse;
         }
 
@@ -67,7 +86,9 @@
             color: #555;
         }
 
-        tr:hover { background-color: #f8f8ff; }
+        tr:hover {
+            background-color: #f8f8ff;
+        }
 
         td a {
             padding: 8px 20px;
@@ -80,15 +101,35 @@
 
         td a:last-child { background: #ff6b6b; color: white; }
         td a:last-child:hover { background: #ff5252; }
+
     </style>
 </head>
+
 <body>
+
     <h1>Listado de Farmacias</h1>
+
     <div style="text-align:center;">
         <a href="{% url 'farmacia_create' %}">Agregar Nueva Farmacia</a>
         <a href="{% url 'index' %}">Volver al Inicio</a>
     </div>
-    <table>
+
+    <!-- === BARRA DE BÚSQUEDA === -->
+    <div class="search-box">
+        <input type="text" id="buscar" placeholder="Escribe para filtrar...">
+
+        <select id="columna">
+            <option value="0">Nombre</option>
+            <option value="1">Dirección</option>
+            <option value="2">Teléfono</option>
+            <option value="3">Correo</option>
+            <option value="4">Región</option>
+            <option value="5">Provincia</option>
+            <option value="6">Comuna</option>
+        </select>
+    </div>
+
+    <table id="tabla">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -101,6 +142,7 @@
                 <th>Acciones</th>
             </tr>
         </thead>
+
         <tbody>
             {% for farmacia in farmacias %}
             <tr>
@@ -121,5 +163,31 @@
             {% endfor %}
         </tbody>
     </table>
+
+
+    <!-- === SCRIPT PARA FILTRAR === -->
+    <script>
+        const inputBusqueda = document.getElementById("buscar");
+        const selectColumna = document.getElementById("columna");
+        const tabla = document.getElementById("tabla").getElementsByTagName("tbody")[0];
+
+        inputBusqueda.addEventListener("keyup", filtrarTabla);
+        selectColumna.addEventListener("change", filtrarTabla);
+
+        function filtrarTabla() {
+            const filtro = inputBusqueda.value.toLowerCase();
+            const col = parseInt(selectColumna.value);
+            const filas = tabla.getElementsByTagName("tr");
+
+            for (let i = 0; i < filas.length; i++) {
+                const celda = filas[i].getElementsByTagName("td")[col];
+                if (celda) {
+                    const texto = celda.textContent.toLowerCase();
+                    filas[i].style.display = texto.includes(filtro) ? "" : "none";
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>

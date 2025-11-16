@@ -19,7 +19,7 @@
             text-align: center;
             font-size: 2.5em;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         a {
@@ -31,7 +31,7 @@
             border-radius: 25px;
             font-weight: 600;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
         }
 
@@ -42,6 +42,27 @@
             color: white;
         }
 
+        /* === BUSCADOR === */
+        .search-box {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input,
+        .search-box select {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            flex: 1;
+            font-size: 1em;
+        }
+
+        .search-box select {
+            flex: 0.4;
+        }
+
         table {
             width: 100%;
             max-width: 1200px;
@@ -49,7 +70,7 @@
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border-collapse: collapse;
         }
 
@@ -69,6 +90,16 @@
 
         tr:hover { background-color: #f8f8ff; }
 
+        .estado-activo {
+            color: green;
+            font-weight: bold;
+        }
+
+        .estado-inactivo {
+            color: red;
+            font-weight: bold;
+        }
+
         td a {
             padding: 8px 20px;
             margin: 0 5px;
@@ -83,6 +114,7 @@
     </style>
 </head>
 <body>
+
     <h1>Asignaciones de Farmacia</h1>
 
     <div style="text-align: center;">
@@ -90,7 +122,20 @@
         <a href="{% url 'index' %}">Volver al Inicio</a>
     </div>
 
-    <table>
+    <!-- === BARRA DE BÚSQUEDA === -->
+    <div class="search-box">
+        <input type="text" id="buscar" placeholder="Escribe para filtrar...">
+
+        <select id="columna">
+            <option value="0">Motorista</option>
+            <option value="1">Farmacia</option>
+            <option value="2">Fecha Asignación</option>
+            <option value="3">Fecha Fin</option>
+            <option value="4">Estado</option>
+        </select>
+    </div>
+
+    <table id="tabla">
         <thead>
             <tr>
                 <th>Motorista</th>
@@ -101,6 +146,7 @@
                 <th>Acciones</th>
             </tr>
         </thead>
+
         <tbody>
             {% for asignacion in asignaciones %}
                 <tr>
@@ -127,5 +173,31 @@
             {% endfor %}
         </tbody>
     </table>
+
+
+    <!-- === SCRIPT DE FILTRADO === -->
+    <script>
+        const inputBusqueda = document.getElementById("buscar");
+        const selectColumna = document.getElementById("columna");
+        const tabla = document.getElementById("tabla").getElementsByTagName("tbody")[0];
+
+        inputBusqueda.addEventListener("keyup", filtrarTabla);
+        selectColumna.addEventListener("change", filtrarTabla);
+
+        function filtrarTabla() {
+            const filtro = inputBusqueda.value.toLowerCase();
+            const col = parseInt(selectColumna.value);
+            const filas = tabla.getElementsByTagName("tr");
+
+            for (let i = 0; i < filas.length; i++) {
+                const celda = filas[i].getElementsByTagName("td")[col];
+                if (celda) {
+                    const texto = celda.textContent.toLowerCase();
+                    filas[i].style.display = texto.includes(filtro) ? "" : "none";
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>
