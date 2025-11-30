@@ -2,9 +2,6 @@ from django import forms
 from .models import Farmacia, Moto, Motorista, AsignacionMoto, AsignacionFarmacia, Movimiento
 
 
-# ===============================
-# FORMULARIO FARMACIA
-# ===============================
 class FarmaciaForm(forms.ModelForm):
     class Meta:
         model = Farmacia
@@ -19,10 +16,6 @@ class FarmaciaForm(forms.ModelForm):
             'comuna': forms.Select(attrs={'class': 'form-select', 'id': 'comuna-select'}),
         }
 
-
-# ===============================
-# FORMULARIO MOTO
-# ===============================
 class MotoForm(forms.ModelForm):
     class Meta:
         model = Moto

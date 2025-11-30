@@ -59,9 +59,7 @@ def farmacia_delete(request, pk):
     return render(request, 'farmacia_delete.html', {'farmacia': farmacia})
 
 
-# =====================================================
-# CRUD MOTO
-# =====================================================
+
 def moto_list(request):
     motos = Moto.objects.all()
     return render(request, 'moto_list.html', {'motos': motos})
