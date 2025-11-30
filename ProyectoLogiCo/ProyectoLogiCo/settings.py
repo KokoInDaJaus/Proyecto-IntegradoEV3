@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['proyecto-integradoev3.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://proyecto-integradoev3.onrender.com',
+]
+
 
 # Application definition
 
