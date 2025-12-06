@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://proyecto-integradoev3.onrender.com',
+    'http://localhost:8000',  
+    'http://127.0.0.1:8000',
 ]
 
 
@@ -131,3 +133,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Sesión de 30 minutos (1800 segundos)

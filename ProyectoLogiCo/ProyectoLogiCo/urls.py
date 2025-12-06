@@ -8,13 +8,17 @@ urlpatterns = [
     
     path('',views.paginaPrincipal, name='paginaPrincipal'),
     path('login/', views.login_view, name='login'),
-    
+    path('registrar/', views.registrar_view, name='registrar'),
+path('recuperar-password/', views.recuperar_password, name='recuperar_password'),
+path('reset-password/<uidb64>/<token>/', views.reset_password_confirm, name='reset_password_confirm'),
+path('dashboard/', views.dashboard_usuario, name='dashboard_usuario'),
     # urls.py
     path('logout/', views.logout_view, name='logout'),  
     path('cambiar-password/', views.cambiar_password, name='cambiar_password'),
     path('recuperar-password/', views.recuperar_password, name='recuperar_password'),
     
     path('index', views.index, name='index'),
+    path('index2', views.index2, name='index2'),
 
     # ========== FARMACIA ==========
     path('farmacias/', views.farmacia_list, name='farmacia_list'),
@@ -47,7 +51,9 @@ urlpatterns = [
 
     # ========== MOVIMIENTOS ==========
     path('movimientos/', views.movimiento_list, name='movimiento_list'),
+    path('movimientos2/', views.movimiento_list2, name='movimiento_list2'),
     path('movimientos/crear/', views.movimiento_create, name='movimiento_create'),
+    path('movimientos/crear/', views.movimiento_create2, name='movimiento_create2'),
     path('movimientos/editar/<int:pk>/', views.movimiento_update, name='movimiento_update'),
     path('movimientos/eliminar/<int:pk>/', views.movimiento_delete, name='movimiento_delete'),
 
@@ -55,7 +61,7 @@ urlpatterns = [
     path('ajax/cargar-provincias/', views.cargar_provincias, name='cargar_provincias'),
     path('ajax/cargar-comunas/', views.cargar_comunas, name='cargar_comunas'),
 
-    
+    path('reportes2/', views.reportes_menu2, name='reportes_menu2'),
     path('reportes/', views.reportes_menu, name='reportes_menu'),
     path('reportes/resultados/', views.reporte_movimientos, name='reporte_movimientos'),
     path('reportes/descargar/pdf/', views.descargar_reporte_pdf, name='descargar_reporte_pdf'),
